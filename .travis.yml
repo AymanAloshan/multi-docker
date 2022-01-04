@@ -3,23 +3,25 @@ services:
   - docker
 
 before_install:
-  - docker build -t aymanaloshan/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t ayman30/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true aymanaloshan/react-test npm test
+  - docker run -e CI=true ayman30/react-test npm test
 
 after_success:
-  - docker build -t aymanaloshan/multi-client ./client
-  - docker build -t aymanaloshan/multi-nginx ./nginx
-  - docker build -t aymanaloshan/multi-server ./server
-  - docker build -t aymanaloshan/multi-worker ./worker
+  - docker build -t ayman30/multi-client ./client
+  - docker build -t ayman30/multi-nginx ./nginx
+  - docker build -t ayman30/multi-server ./server
+  - docker build -t ayman30/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push aymanaloshan/multi-client
-  - docker push aymanaloshan/multi-nginx
-  - docker push aymanaloshan/multi-server
-  - docker push aymanaloshan/multi-worker
+  - docker tag firstimage YOUR_DOCKERHUB_NAME/firstimage
+
+  - docker push ayman30/multi-client
+  - docker push ayman30/multi-nginx
+  - docker push ayman30/multi-server
+  - docker push ayman30/multi-worker
 
 deploy:
   provider: elasticbeanstalk
